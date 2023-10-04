@@ -3,15 +3,12 @@ import React from 'react'
 import TitleBar from '../components/atoms/TitleBar'
 import { Button, Input, Select, Table } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
-import { useRouter } from 'next/navigation'
 import { columnsDataJabatan, dataJabatanSource, showEntriesOption } from "../constant/index"
+import Link from 'next/link'
 
 const { Search } = Input;
 
 const Jabatan = () => {
-  const router = useRouter();
-
-  const handleAddJabatan = () => router.push("/jabatan/tambah");
 
   const handleChange = (value) => {
     console.log(`selected ${value}`);
@@ -24,13 +21,13 @@ const Jabatan = () => {
       <div className="jabatan">
         <div className='flex justify-between items-center flex-wrap gap-4'>
           <h1 className="section-title">Daftar Jabatan</h1>
-          <Button icon={<PlusOutlined />} type='primary' onClick={handleAddJabatan} size='large'>Tambah Jabatan</Button>
+          <Link href="/jabatan/tambah"><Button icon={<PlusOutlined />} type='primary' size='large'>Tambah Jabatan</Button></Link>
         </div>
         <div className='flex flex-wrap gap-4 justify-between items-center my-10'>
           <div>Show 
           <Select
             defaultValue="10"
-            style={{
+            style={{  
               width: 60,
               margin: "0 10px"
             }}

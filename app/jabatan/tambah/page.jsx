@@ -2,8 +2,10 @@
 import TitleBar from '@/app/components/atoms/TitleBar'
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, Form, Input } from 'antd'
+const { TextArea } = Input;
 import { useRouter } from 'next/navigation';
 import React from 'react'
+import Swal from 'sweetalert2';
 
 const TambahJabatan = () => {
   const styles = {
@@ -23,9 +25,13 @@ const TambahJabatan = () => {
     },
   }
   const router = useRouter()
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     console.log(values);
-    alert("Data Berhasil Ditambahkan")
+    await Swal.fire(
+      'Success',
+      'Data Jabatan Berhasil Ditambahkan!',
+      'success'
+    )
     router.push("/jabatan")
   }
 
@@ -37,7 +43,7 @@ const TambahJabatan = () => {
         <p>Silahkan isi form dibawah ini untuk menambahkan data jabatan baru</p>
         <Form
           layout='horizontal'
-          labelCol={{span: 5}}
+          labelCol={{span: 7}}
           labelWrap
           // wrapperCol={{span: 10}}
           labelAlign='left'
@@ -72,13 +78,21 @@ const TambahJabatan = () => {
             <Input style={styles.inputStyle} placeholder='Sekretaris Dinas'/>
           </Form.Item>
           <Form.Item 
-            label="Keterangan" 
+            label="Keterangan (Opsional)" 
             name="keterangan" 
             style={styles.formItemStyle} >
-            <Input style={styles.inputStyle}/>
+            <TextArea
+              placeholder="Keterangan"
+              style={styles.inputStyle}
+              autoSize={{
+                minRows: 3,
+                maxRows: 4,
+              }}
+            />
           </Form.Item>
-          <div className="flex justify-end items-end">
-            <Button icon={<PlusOutlined />} htmlType='submit' type='primary'>Tambah Jabatan</Button>
+          <div className="flex justify-end items-end gap-3">
+            <Button htmlType='submit' type='primary'>Simpan data</Button>
+            <Button htmlType='reset' type='default' style={{background: "#F0F5FD", fontWeight: 500}}>Reset</Button>
           </div>
         </Form>
       </div>

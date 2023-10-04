@@ -29,6 +29,22 @@ body {
   background-color: #ebf2fd;
 }
 
+/* .table {
+  @apply w-full
+} */
+/* table > thead {
+  @apply bg-gray-100 border-b-2 border-gray-200
+}
+table > thead > tr > th {
+  @apply p-3 text-sm font-semibold tracking-wide whitespace-nowrap
+}
+table > tbody {
+  @apply divide-y divide-gray-100
+}
+table > tbody > tr > td {
+  @apply p-3 text-center text-sm text-gray-700 whitespace-nowrap
+} */
+
 .active {
   @apply bg-primary text-white;
 }
@@ -105,6 +121,34 @@ thead > tr > .ant-table-cell{
   @apply p-6 my-6 bg-white rounded-lg shadow-md shadow-gray-300 md:px-10 md:py-8
 }
 .tambah-jabatan {
-  @apply px-10 py-8 my-6 bg-white rounded-lg shadow-md shadow-gray-300 w-full md:w-[800px]
+  @apply px-10 py-8 mt-6 bg-white rounded-lg shadow-md shadow-gray-300 w-full md:w-[800px]
 }
 /* END: DATA JABATAN */
+
+/* START: DATA PEGAWAI */
+.pegawai {
+  @apply p-6 my-6 bg-white rounded-lg shadow-md shadow-gray-300 md:px-10 md:py-8
+}
+.tambah-pegawai {
+  @apply px-10 py-8 mt-6 bg-white rounded-lg shadow-md shadow-gray-300 w-full
+}
+/* END: DATA PEGAWAI */
+
+/* START: DATA KEHADIRAN */
+.kehadiran {
+  @apply p-6 my-6 bg-white rounded-lg shadow-md shadow-gray-300 md:px-10 md:py-8
+}
+.tambah-kehadiran {
+  @apply px-10 py-8 mt-6 bg-white rounded-lg shadow-md shadow-gray-300 w-full
+}
+/* END: DATA KEHADIRAN */
+
+/* START: USER MANAGEMENT */
+.user {
+  @apply p-6 my-6 bg-white rounded-lg shadow-md shadow-gray-300 md:px-10 md:py-8
+}
+.tambah-user {
+  @apply px-10 py-8 mt-6 bg-white rounded-lg shadow-md shadow-gray-300 w-full md:w-[800px]
+}
+/* END: USER MANAGEMENT */
+

@@ -1,10 +1,10 @@
 import React from 'react'
-import TitleBar from '../components/atoms/TitleBar'
+import NavbarPresensi from '../components/organisms/NavbarPresensi'
 
 const Absensi = () => {
   return (
     <section id='absensi'>
-      <TitleBar title={"Scan QR Code"}/>
+      <NavbarPresensi />
     </section>
   )
 }

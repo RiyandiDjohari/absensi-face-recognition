@@ -1,62 +1,31 @@
-'use client';
-import { useState } from 'react'
-import { Footer, Header, Sidebar } from './components'
-import './globals.css'
-import { usePathname } from 'next/navigation';
-import StyledComponentsRegistry from './lib/antdRegistry';
-import { ConfigProvider } from 'antd';
+import "./globals.css";
+import MainLayout from "./components/templates/MainLayout";
+import { getServerSession } from "next-auth";
+import { authOptions } from "./lib/auth";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 export const metadata = {
-  title: 'Absensi QR Code',
-  description: 'Sistem Absensi Pegawai Menggunakan QR Code',
-}
+  title: "Absensi Face Recognition",
+  description: "Sistem Absensi Pegawai Menggunakan QR Code",
+};
 
-export default function RootLayout({ children }) {
-  const pathName = usePathname();
-  const [sidebarMini, setSidebarMini] = useState(false);
+export default async function RootLayout({ children }) {
+  const session = await getServerSession(authOptions);
+  const headersList = headers();
+  const activePath = headersList.get("x-invoke-path");
+
+  if(!session && activePath != "/login") {
+    redirect("/login");
+  } else if (session && activePath == "/login") {
+    redirect("/dashboard");
+  }
 
   return (
     <html lang="en">
       <body>
-        {
-          pathName == "/login" || pathName == "/" ? (
-            <div>
-              <StyledComponentsRegistry>
-                <ConfigProvider
-                   theme={{
-                    token: {
-                      colorPrimary: '#7076FE',
-                    },
-                  }}
-                >
-                  {children}
-                </ConfigProvider>
-              </StyledComponentsRegistry>
-            </div>
-          ) : (
-            <StyledComponentsRegistry>
-              <ConfigProvider
-                  theme={{
-                  token: {
-                    colorPrimary: '#7076FE',
-                  },
-                }}
-              >
-                <div className="flex flex-col min-h-screen">
-                  <div className="flex flex-1">
-                    <Sidebar sidebarMini={sidebarMini} setSidebarMini={setSidebarMini}/>
-                    <div className="flex flex-col flex-1">
-                      <Header setSidebarMini={setSidebarMini}/>
-                      <main className="p-6 flex-1">{children}</main>
-                      <Footer />
-                    </div>
-                  </div>
-                </div>
-              </ConfigProvider>
-            </StyledComponentsRegistry>
-          )
-        }
+        <MainLayout children={children} />
       </body>
     </html>
-  )
+  );
 }
