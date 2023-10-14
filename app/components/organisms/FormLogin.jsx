@@ -16,7 +16,6 @@ const FormLogin = () => {
       password: values.password,
       redirect: false,
     });
-    console.log(signInData)
     if (signInData.error) {
       await Swal.fire("Oops", "Username atau password salah!", "error");
     } else {
@@ -64,14 +63,11 @@ const FormLogin = () => {
       >
         <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password" />
       </Form.Item>
+
       <Form.Item>
         <Form.Item name="remember" valuePropName="checked" noStyle>
           <Checkbox>Remember me</Checkbox>
         </Form.Item>
-
-        {/* <a className="login-form-forgot" href="">
-          Forgot password
-        </a> */}
       </Form.Item>
 
       <Form.Item>

@@ -8,9 +8,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 const UpdatePengguna = () => {
   const searchParams = useSearchParams();
   const [status, setStatus] = useState(searchParams.get("status"))
-  console.log(searchParams.get("name"));
   const router = useRouter();
-  console.log(status)
+
   const styles = {
     inputStyle: {
       fontWeight: "500",
@@ -19,13 +18,13 @@ const UpdatePengguna = () => {
       width: "100%",
       border: "1px solid black",
       fontSize: "14px",
-      // padding: "10px"
     },
     formItemStyle: {
       marginBottom: "2.5rem",
       fontWeight: "600",
     },
   };
+
   const onFinish = async (values) => {
     try {
       const response = await fetch(`/api/user/${searchParams.get("id")}`, {
@@ -51,14 +50,12 @@ const UpdatePengguna = () => {
     } catch (error) {
       console.log(error);
     }
-
-    console.log(values);
   };
 
   const handleStatusChange = (e) => {
-    console.log('radio checked', e.target.value);
     setStatus(e.target.value);
   };
+  
   return (
     <div>
       <TitleBar title="Manajemen Pengguna" />
@@ -77,7 +74,6 @@ const UpdatePengguna = () => {
               status: status
             }
           }
-          // wrapperCol={{span: 10}}
           labelAlign="left"
           size="large"
           style={{ margin: "2rem 0" }}

@@ -2,19 +2,45 @@
 
 import { EditOutlined, SaveOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Checkbox, InputNumber } from 'antd'
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
+import Swal from 'sweetalert2';
 
-const FormDataDinas = () => {
+const FormDataDinas = ({profile}) => {
   const [form] = Form.useForm();
   const [isTablet, setIsTablet] = useState(false);
   const [componentDisabled, setComponentDisabled] = useState(true);
+  const router = useRouter();
 
   form.getFieldValue();
 
-  const onFinish = (values) => {
-    console.log(values)
-    alert('data berhasil tersimpan');
+  const onFinish = async (values) => {
     setComponentDisabled(prev => !prev);
+    try {
+      const response = await fetch(`/api/profile/${profile.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          nama_institusi: values.nama_institusi,
+          telepon: values.telepon,
+          email: values.email,
+          alamat: values.alamat,
+          latitude: values.latitude,
+          longitude: values.longitude,
+        }),
+      });
+      if (response.ok) {
+        console.log(response);
+        await Swal.fire("Success", "Profil Dinas Berhasil diperbarui!", "success");
+        router.refresh();
+      } else {
+        await Swal.fire("Oops", "Something Went Wrong", "error");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
   const handleEditButton = () => {
     setComponentDisabled(prev => !prev);
@@ -58,20 +84,11 @@ const FormDataDinas = () => {
       size='large'
       onFinish={onFinish}
       disabled={componentDisabled}  
-      initialValues={
-        { 
-          namaDinas: "Dinas Kebudayaan dan Pariwisata",
-          noTelepon: "0823",
-          email: "johndoe@gmail.com",
-          alamat: "Jalan Pipit, Kelurahan Tanamodindi, Kec. Palu Selatan, Kota Palu, Sulawesi Tengah 94111",
-          latitude: "-0.9023585357091002",
-          longitude: "119.89049421537652",
-        }
-      }
+      initialValues={profile}
     >
       <Form.Item 
         label="Nama Dinas" 
-        name="namaDinas" 
+        name="nama_institusi" 
         style={styles.formItemStyle}
         rules={[
           {
@@ -84,7 +101,7 @@ const FormDataDinas = () => {
       </Form.Item>
       <Form.Item 
         label="No. Telepon" 
-        name="noTelepon" 
+        name="telepon" 
         style={styles.formItemStyle}
         rules={[
           {
@@ -180,3 +197,12 @@ const FormDataDinas = () => {
 }
 
 export default FormDataDinas
+
+// { 
+//   namaDinas: "Dinas Kebudayaan dan Pariwisata",
+//   noTelepon: "0823",
+//   email: "johndoe@gmail.com",
+//   alamat: "Jalan Pipit, Kelurahan Tanamodindi, Kec. Palu Selatan, Kota Palu, Sulawesi Tengah 94111",
+//   latitude: "-0.9023585357091002",
+//   longitude: "119.89049421537652",
+// }

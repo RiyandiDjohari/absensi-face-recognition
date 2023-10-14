@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import React from 'react'
 import Swal from 'sweetalert2';
 
-const TambahJabatan = () => {
+const EditJabatan = () => {
   const searchParams = useSearchParams();
   const styles = {
     inputStyle: {
@@ -26,37 +26,38 @@ const TambahJabatan = () => {
   }
   const router = useRouter()
   const onFinish = async (values) => {
-    const {kode_jabatan, nama_jabatan, keterangan} = values;
     try {
-      const response = await fetch("/api/jabatan", {
-        method: "POST",
+      const response = await fetch(`/api/jabatan/${searchParams.get("id")}`, {
+        method: "PATCH",
         headers: {
           "Content-type": "application/json",
         },
         body: JSON.stringify({
-          kode_jabatan,
-          nama_jabatan,
-          keterangan
+          nama_jabatan: values.nama_jabatan,
+          keterangan: values.keterangan,
         }),
       });
       if (response.ok) {
-        await Swal.fire("Success", "Data Jabatan Berhasil Ditambahkan!", "success");
+        console.log(response);
+        await Swal.fire("Success", "Data Jabatan Berhasil Diupdate!", "success");
         router.refresh();
         router.push("/jabatan");
       } else {
-        await Swal.fire("Oops", "Data Jabatan Telah Ada", "error");
+        await Swal.fire("Oops", "Something Went Wrong", "error");
       }
     } catch (error) {
       console.log(error);
     }
-  }
+
+    console.log(values);
+  };
 
   return (
     <div>
       <TitleBar title="Data Jabatan"/>
       <div className='tambah-jabatan'>
-        <h1 className="section-title">Tambah Jabatan</h1>
-        <p>Silahkan isi form dibawah ini untuk menambahkan data jabatan baru</p>
+        <h1 className="section-title">Edit Data Jabatan</h1>
+        <p>Silahkan isi form dibawah ini untuk mengedit data jabatan</p>
         <Form
           layout='horizontal'
           labelCol={{span: 7}}
@@ -67,7 +68,9 @@ const TambahJabatan = () => {
           style={{margin: '2rem 0'}}
           onFinish={onFinish}
           initialValues={{
-            kode_jabatan: searchParams.get("kode")
+            kode_jabatan: searchParams.get("kode"),
+            nama_jabatan: searchParams.get("nama"),
+            keterangan: searchParams.get("keterangan"),
           }}
         >
           <Form.Item 
@@ -113,4 +116,4 @@ const TambahJabatan = () => {
   )
 }
 
-export default TambahJabatan
+export default EditJabatan;

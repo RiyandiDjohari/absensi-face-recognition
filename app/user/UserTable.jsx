@@ -20,6 +20,7 @@ const UserTable = ({users}) => {
   };
 
   const dataSource = users.map((user, i) => ({
+    key: i,
     no: `${i + 1}`,
     id: user.id,
     name: user.name,
@@ -97,7 +98,6 @@ const UserTable = ({users}) => {
   ];
 
   const handleDeleteUser = async (userId) => {
-    console.log(userId);
     await Swal.fire({
       title: 'Are you sure want to delete?',
       icon: "warning",
@@ -118,7 +118,6 @@ const UserTable = ({users}) => {
     })
   }
 
-
   const onSearch = (value) => {
     const filterUser = users.filter(user => user.name.toLowerCase().includes(value.toLowerCase()))
     setFilteredUser(filterUser.map((user, i) => ({
@@ -132,7 +131,6 @@ const UserTable = ({users}) => {
      createdAt: format(new Date(user.createdAt),("dd-MM-yyyy"))
    })))
   }
-  
 
   return (
     <div className="user">

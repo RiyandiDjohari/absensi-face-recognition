@@ -2,18 +2,31 @@
 import React, { useEffect, useState } from 'react'
 import TitleBar from '@/app/components/atoms/TitleBar'
 import { Button, DatePicker, Form, Input, Radio, Select, Steps } from 'antd'
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 const { TextArea } = Input;
 import Swal from 'sweetalert2'
 import Camera from '@/app/components/atoms/Camera';
 import { dataPangkat } from '@/app/constant';
 
-const TambahPegawai = () => {
+const UpdatePegawai = () => {
+  const searchParams = useSearchParams();
   const [jenisKelamin, setJenisKelamin] = useState("");
-  const [allJabatan, setAllJabatan] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [allJabatan, setAllJabatan] = useState([]);
   const [current, setCurrent] = useState(0);
   const router = useRouter()
+
+  const fetchAllJabatan = async () => {
+    setLoading(true);
+    const response = await fetch("/api/jabatan");
+    const data = await response.json();
+    setAllJabatan(data.allJabatan);
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    fetchAllJabatan();
+  }, [])
 
   const next = () => {
     setCurrent(current + 1);
@@ -39,25 +52,6 @@ const TambahPegawai = () => {
     title: item.title,
   }));
 
-  const fetchAllJabatan = async () => {
-    setLoading(true);
-    const response = await fetch("/api/jabatan");
-    const data = await response.json();
-    setAllJabatan(data.allJabatan);
-    setLoading(false);
-  }
-
-  useEffect(() => {
-    fetchAllJabatan();
-  }, [])
-
-  const options = allJabatan.map((jabatan) => (
-    { 
-      value: jabatan.id, 
-      label: jabatan.nama_jabatan 
-    }
-  ))
-
   const styles = {
     inputStyle: {
       fontWeight: "500", 
@@ -75,20 +69,28 @@ const TambahPegawai = () => {
     },
   }
 
+  const options = allJabatan.map((jabatan) => (
+    { 
+      value: jabatan.id, 
+      label: jabatan.nama_jabatan 
+    }
+  ))
+
   const onFinish = async (values) => {
-    const {nama, nip, telepon, tempat_lahir, tanggal_lahir, jenis_kelamin, jabatanId, pangkat, alamat} = values;
+    console.log(values)
+    const {nama, nip, telepon, tempat_lahir, jenis_kelamin, jabatanId, pangkat, alamat} = values;
     try {
-      const response = await fetch("/api/pegawai", {
-        method: "POST",
+      const response = await fetch(`/api/pegawai/${searchParams.get("id")}`, {
+        method: "PATCH",
         headers: {
           "Content-type": "application/json",
         },
         body: JSON.stringify({
-          nama, nip, telepon, tempat_lahir, tanggal_lahir, jenis_kelamin, jabatanId, pangkat, alamat
+          nama, nip, telepon, tempat_lahir, jenis_kelamin, jabatanId, pangkat, alamat
         }),
       });
       if (response.ok) {
-        await Swal.fire("Success", "Data Pegawai Berhasil Ditambahkan!", "success");
+        await Swal.fire("Success", "Data Pegawai Berhasil Diedit!", "success");
         router.refresh();
         next();
       } else {
@@ -99,11 +101,6 @@ const TambahPegawai = () => {
       console.log(error);
     }
   }
-
-  const onDateChange = (date, dateString) => {
-    console.log(date, dateString);
-    setTanggalLahir(dateString);
-  };
 
   const handleJabatanChange = (value) => {
     console.log(`selected ${value}`);
@@ -122,10 +119,10 @@ const TambahPegawai = () => {
 
   return (
     <div>
-      <TitleBar title="Tambah Pegawai"/>
+      <TitleBar title="Edit Pegawai"/>
       <div className='tambah-pegawai'>
-        <h1 className="section-title">Tambah Pegawai</h1>
-        <p>Silahkan isi form dibawah ini untuk menambahkan data pegawai baru</p>
+        <h1 className="section-title">Edit Pegawai</h1>
+        <p>Silahkan isi form dibawah ini untuk mengedit data pegawai</p>
         <Steps current={current} items={items} style={{marginTop: "2rem", paddingRight: "4rem"}}/>
         {
           current == 0 && (
@@ -137,6 +134,16 @@ const TambahPegawai = () => {
               size='large'
               style={{margin: '2rem 0'}}
               onFinish={onFinish}
+              initialValues={{
+                nama: searchParams.get("nama"),
+                nip: searchParams.get("nip"),
+                telepon: searchParams.get("telepon"),
+                tempat_lahir: searchParams.get("tempat_lahir"),
+                alamat: searchParams.get("alamat"),
+                jenis_kelamin: searchParams.get("jenis_kelamin"),
+                jabatanId: Number(searchParams.get("jabatanId")),
+                pangkat: searchParams.get("pangkat"),
+              }}
             >
               <div className='flex w-full flex-col xl:flex-row'>
                 <div className='flex-1'>
@@ -191,19 +198,6 @@ const TambahPegawai = () => {
                     ]}
                   >
                     <Input style={styles.inputStyle} placeholder='Palu'/>
-                  </Form.Item>
-                  <Form.Item 
-                    label="Tanggal Lahir" 
-                    name="tanggal_lahir" 
-                    style={styles.formItemStyle} 
-                    rules={[
-                      {
-                        required: true,
-                        message: "Tanggal Lahir tidak boleh kosong!"
-                      }
-                    ]}
-                  >
-                    <DatePicker onChange={onDateChange} style={styles.inputStyle} format="DD/MM/YYYY"/>
                   </Form.Item>
                   <Form.Item 
                     label="Jenis Kelamin" 
@@ -290,4 +284,4 @@ const TambahPegawai = () => {
   )
 }
 
-export default TambahPegawai
+export default UpdatePegawai
