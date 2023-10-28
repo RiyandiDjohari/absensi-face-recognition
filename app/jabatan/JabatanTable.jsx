@@ -2,16 +2,22 @@
 import React, { useState } from 'react'
 import { Button, Input, Select, Table } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
-import { columnsDataJabatan, dataJabatanSource, showEntriesOption } from "../constant/index"
-import Link from 'next/link'
+import { showEntriesOption } from "../constant/index"
 import { FiEdit } from 'react-icons/fi'
 import { RiDeleteBin6Line } from 'react-icons/ri'
+import ModalAddJabatan from './ModalAddJabatan'
+import EditJabatan from './EditJabatan'
 
 const { Search } = Input;
 
 const JabatanTable = ({ allJabatan, lastJabatan }) => {
+  const [open, setOpen] = useState(false);
   const [entryData, setEntryData] = useState("10");
   const [filteredUser, setFilteredUser] = useState("");
+
+  // Generate kode jabatan baru
+  const idJabatan = lastJabatan.id + 1 ;
+
   const columnsDataJabatan = [
     {
       title: "No",
@@ -46,23 +52,13 @@ const JabatanTable = ({ allJabatan, lastJabatan }) => {
       width: 100,
       render: (_, record) => (
         <div className="flex justify-center items-center gap-2">
-          <Link href={{
-            pathname: `/jabatan/edit`, 
-            query: {
-              id: record.id,
-              kode: record.kode_jabatan,
-              nama: record.nama_jabatan,
-              keterangan: record.keterangan,
-            }
-            }}
-          >
-            <FiEdit color="#FFC107" size={25} style={{ cursor: "pointer" }} />
-          </Link>
+          <EditJabatan jabatan={record}/>
           <RiDeleteBin6Line color="#DC3545" size={25} style={{ cursor: "pointer" }} onClick={() => handleDeleteJabatan()}/>
         </div>
       ),
     },
   ];
+
   const dataSource = allJabatan.map((jabatan, i) => ({
     key: i,
     no: `${i + 1}`,
@@ -89,16 +85,11 @@ const JabatanTable = ({ allJabatan, lastJabatan }) => {
    })))
   }
 
-  const newKodeJabatan = `JAB-${String(lastJabatan.id).length > 1 || lastJabatan.id == 9 ? "00" : "000"}${Number(lastJabatan.id) + 1}`
   return (
     <div className="jabatan">
       <div className='flex justify-between items-center flex-wrap gap-4'>
         <h1 className="section-title">Daftar Jabatan</h1>
-        <Link href={{pathname: `/jabatan/tambah`, query: {
-          kode: newKodeJabatan,
-        }}}>
-          <Button icon={<PlusOutlined />} type='primary' size='large'>Tambah Jabatan</Button>
-        </Link>
+        <Button icon={<PlusOutlined />} type='primary' size='large' onClick={() => setOpen(true)}>Tambah Jabatan</Button>
       </div>
       <div className='flex flex-wrap gap-4 justify-between items-center my-10'>
         <div>Show 
@@ -136,6 +127,8 @@ const JabatanTable = ({ allJabatan, lastJabatan }) => {
         // scroll={{x: "100vw"}}
         // style={{width: "100%  "}}
       />
+
+      <ModalAddJabatan open={open} setOpen={setOpen} kodeJabatan={idJabatan} />
     </div>
   )
 }

@@ -7,7 +7,7 @@ import { BiMenu } from 'react-icons/bi'
 const NavbarPresensi = () => {
   const [toggleMenu, setToggleMenu] = useState(true);
   return (
-    <nav className="bg-[#7076FE] w-full flex flex-wrap items-center justify-between px-4 py-4 text-white text-sm sm:px-8 sm:text-base lg:px-36">
+    <nav className="bg-primary w-full flex flex-wrap items-center justify-between px-4 py-4 text-white text-sm sm:px-8 sm:text-base lg:px-36">
       <div className='flex items-center gap-2'>
         <Image src="/logo.png" width={45} height={50} alt='logo' className={`object-contain`}/>
         <h2 className='tracking-wider'>Dinas Kebudayaan & Pariwisata</h2>

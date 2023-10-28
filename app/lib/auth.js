@@ -33,17 +33,29 @@ export const authOptions = {
         return {
           id: existingUser.id,
           username: existingUser.username,
+          email: existingUser.email,
+          foto: existingUser.foto,
         };
       },
     }),
   ],
   callbacks: {
     async session({ session, token }) {
+      const existingUser = await db.user.findUnique({
+        where: {
+          id: Number(token.sub),
+          status: "Aktif"
+        },
+      });
       return {
         ...session,
         user: {
-          ...session.user,
-          username: token.username,
+          id: existingUser.id,
+          username: existingUser.username,
+          name: existingUser.name,
+          email: existingUser.email,
+          image: existingUser.foto,
+          status: existingUser.status,
         },
       };
     },
@@ -51,7 +63,11 @@ export const authOptions = {
       if (user) {
         return {
           ...token,
+          // id: user.id,
+          // name: user.name, 
+          // email: user.email,
           username: user.username,
+          // status: user.status,
         };
       }
       return token;

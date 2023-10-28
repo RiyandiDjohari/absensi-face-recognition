@@ -17,6 +17,7 @@ export async function POST(request) {
 
     return NextResponse.json({ newJabatan, message: "Jabatan created successfully" }, { status: 201 });
   } catch (error) {
+    console.log(error);
     return NextResponse.json({ message: "Something went wrong" }, { status: 500 });
   }
 }

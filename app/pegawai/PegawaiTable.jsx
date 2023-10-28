@@ -105,6 +105,7 @@ const PegawaiTable = ({ allPegawai }) => {
             jabatanId: record.jabatanId,
             pangkat: record.pangkat,
             alamat: record.alamat,
+            tanggal_lahir: record.tanggal_lahir,
           }}}>
             <FiEdit color="#FFC107" size={25} style={{ cursor: "pointer" }}/>
           </Link>

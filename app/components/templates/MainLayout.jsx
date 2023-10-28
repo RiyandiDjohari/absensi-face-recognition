@@ -1,5 +1,5 @@
 'use client';
-import React from "react";
+import React, { useState } from "react";
 import StyledComponentsRegistry from "../../lib/AntdRegistry";
 import { ConfigProvider } from "antd";
 import AdminLayout from "./AdminLayout";
@@ -13,7 +13,7 @@ const MainLayout = ({ children }) => {
       <ConfigProvider
         theme={{
           token: {
-            colorPrimary: "#7076FE",
+            colorPrimary: "#14a7a0",
           },
         }}
       >
@@ -22,7 +22,7 @@ const MainLayout = ({ children }) => {
             {children}
           </>
         ) : (
-          <AdminLayout children={children} />
+          <AdminLayout children={children}/>
         )}
       </ConfigProvider>
     </StyledComponentsRegistry>

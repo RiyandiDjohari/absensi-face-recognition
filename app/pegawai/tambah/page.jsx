@@ -12,6 +12,7 @@ const TambahPegawai = () => {
   const [jenisKelamin, setJenisKelamin] = useState("");
   const [allJabatan, setAllJabatan] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [tanggalLahir, setTanggalLahir] = useState("");
   const [current, setCurrent] = useState(0);
   const router = useRouter()
 
@@ -76,7 +77,8 @@ const TambahPegawai = () => {
   }
 
   const onFinish = async (values) => {
-    const {nama, nip, telepon, tempat_lahir, tanggal_lahir, jenis_kelamin, jabatanId, pangkat, alamat} = values;
+    const {nama, nip, telepon, tempat_lahir, jenis_kelamin, jabatanId, pangkat, alamat} = values;
+    
     try {
       const response = await fetch("/api/pegawai", {
         method: "POST",
@@ -84,7 +86,7 @@ const TambahPegawai = () => {
           "Content-type": "application/json",
         },
         body: JSON.stringify({
-          nama, nip, telepon, tempat_lahir, tanggal_lahir, jenis_kelamin, jabatanId, pangkat, alamat
+          nama, nip, telepon, tempat_lahir, tanggal_lahir: tanggalLahir, jenis_kelamin, jabatanId, pangkat, alamat
         }),
       });
       if (response.ok) {

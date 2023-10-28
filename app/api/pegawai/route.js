@@ -1,7 +1,7 @@
 import { db } from "@/app/lib/db";
 import { NextResponse } from "next/server";
 
-// CREATE A NEW JABATAN
+// CREATE A NEW PEGAWAI
 export async function POST(request) {
   try {
     const body = await request.json();
@@ -25,5 +25,26 @@ export async function POST(request) {
   } catch (error) {
     console.log(error)
     return NextResponse.json({ message: "Something went wrong" }, { status: 500 });
+  }
+}
+
+// GET ALL PEGAWAI
+export async function GET(request) {
+  try {
+    const allPegawai = await db.pegawai.findMany({
+      select: {
+          id: true, 
+          nama: true,
+          jabatan: {
+            select: {
+              nama_jabatan: true,
+            }
+          }
+        }
+    });
+    return NextResponse.json(allPegawai, {status: 200})
+  } catch (error) {
+    console.log(error)
+    return NextResponse.json({ message: "Something Went Wrong" }, { status: 500 });
   }
 }

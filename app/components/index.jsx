@@ -5,5 +5,5 @@ import Sidebar from "./organisms/Sidebar";
 export {
   Header,
   Footer,
-  Sidebar,
+  // Sidebar,
 };

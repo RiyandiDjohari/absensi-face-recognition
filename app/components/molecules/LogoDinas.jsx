@@ -53,7 +53,7 @@ const LogoDinas = ({ profile }) => {
         <Image src={profile.logo} width={250} height={250} alt="logo"/>
       )}
 
-      <label className="flex items-center justify-center gap-2 px-4 py-2 text-white rounded-lg shadow-lg bg-[#7076FE] cursor-pointer">
+      <label className="flex items-center justify-center gap-2 px-4 py-2 text-white rounded-lg shadow-lg bg-primary cursor-pointer">
         <EditOutlined />
         <span className="text-sm">Ubah Logo</span>
         <input 

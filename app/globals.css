@@ -152,3 +152,15 @@ thead > tr > .ant-table-cell{
 }
 /* END: USER MANAGEMENT */
 
+/* START: PROFILE USER */
+.profil-user {
+  @apply flex items-start justify-between my-6 flex-wrap w-full gap-6;
+}
+.data-user {
+  @apply flex-1 w-full md:w-6/12 lg:w-7/12 pt-4 pb-8 px-8 bg-white rounded-lg shadow-md shadow-gray-300
+}
+.card-user {
+  @apply w-full md:w-4/12 lg:w-4/12 xl:w-4/12 text-center py-10 px-8 bg-white rounded-lg shadow-md shadow-gray-300
+}
+
+/* END: PROFILE USER */

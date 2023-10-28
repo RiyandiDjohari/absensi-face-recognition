@@ -1,5 +1,6 @@
 'use client';
 import { Form, Input, Modal } from 'antd'
+import dayjs from 'dayjs';
 import React from 'react'
 const { TextArea } = Input;
 
@@ -17,7 +18,7 @@ const PegawaiModal = ({open, setOpen, pegawai}) => {
       
     },
   }
-  const tanggal = JSON.stringify(pegawai.tanggal_lahir);
+
   return (
     <Modal
       title="Detail Pegawai"
@@ -36,7 +37,7 @@ const PegawaiModal = ({open, setOpen, pegawai}) => {
           nip: pegawai.nip,
           telepon: pegawai.telepon,
           tempat_lahir: pegawai.tempat_lahir,
-          tanggal_lahir: tanggal?.slice(1, 11), 
+          tanggal_lahir:pegawai.tanggal_lahir, 
           pangkat: pegawai.pangkat,
           jabatan: pegawai?.jabatan?.nama_jabatan,
           jenis_kelamin: pegawai.jenis_kelamin == "L" ? "Laki-laki" : "Perempuan",

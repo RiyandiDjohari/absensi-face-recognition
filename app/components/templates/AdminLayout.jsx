@@ -1,6 +1,11 @@
 'use client';
 import React, { useEffect, useState } from "react";
-import { Footer, Header, Sidebar } from "..";
+import { Footer, Header } from "..";
+import { SessionProvider } from "next-auth/react";
+import dynamic from "next/dynamic";
+import Sidebar from "../organisms/Sidebar";
+
+// const Sidebar = dynamic(() =>  import("../organisms/Sidebar"), {ssr: true});
 
 const AdminLayout = ({children}) => {
   const [isMobile, setIsMobile] = useState(false)
@@ -14,22 +19,23 @@ const AdminLayout = ({children}) => {
       setIsMobile(false)
     }
   }
-  
   // create an event listener
   useEffect(() => {
     window.addEventListener("resize", handleResize)
   })
   return (
-    <div className="flex flex-col min-h-screen">
-      <div className="flex flex-1">
-        <Sidebar sidebarMini={sidebarMini} setSidebarMini={setSidebarMini} isMobile={isMobile} setIsMobile={setIsMobile}/>
-        <div className={`flex flex-col flex-1 ${sidebarMini ? "ml-20" : "min-[1100px]:ml-64 xl:ml-72"} ${isMobile && "ml-0"}`}>
-          <Header setSidebarMini={setSidebarMini} />
-          <main className="p-6 flex-1">{children}</main>
-          <Footer />
+    <SessionProvider>
+      <div className="flex flex-col min-h-screen">
+        <div className="flex flex-1">
+          <Sidebar sidebarMini={sidebarMini} setSidebarMini={setSidebarMini} isMobile={isMobile} setIsMobile={setIsMobile}/>
+          <div className={`flex flex-col flex-1 ${sidebarMini ? "ml-20" : "min-[1100px]:ml-64 xl:ml-72"} ${isMobile && "ml-0"}`}>
+            <Header setSidebarMini={setSidebarMini}/>
+            <main className="p-6 flex-1">{children}</main>
+            <Footer />
+          </div>
         </div>
       </div>
-    </div>
+    </SessionProvider>
   );
 };
 

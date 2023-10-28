@@ -1,7 +1,9 @@
-import React from 'react'
+// 'use client';
+import React, { Suspense } from 'react'
 import TitleBar from '../components/atoms/TitleBar'
 import { db } from '../lib/db'
 import UserTable from './UserTable'
+import Loading from './Loading'
 
 const getUsers = async () => {
   const res = await db.user.findMany({
@@ -24,8 +26,11 @@ const User = async () => {
     <section id='user'>
       <TitleBar title={"Manajemen Pengguna"}/>
       
-      <UserTable users={users}/>
+      <Suspense fallback={<Loading />}>
+        <UserTable users={users}/>
+      </Suspense>
     </section>
+    // <h1>Test</h1>
   )
 }
 

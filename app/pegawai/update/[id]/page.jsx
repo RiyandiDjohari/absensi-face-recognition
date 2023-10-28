@@ -7,12 +7,14 @@ const { TextArea } = Input;
 import Swal from 'sweetalert2'
 import Camera from '@/app/components/atoms/Camera';
 import { dataPangkat } from '@/app/constant';
+import dayjs from 'dayjs';
 
 const UpdatePegawai = () => {
   const searchParams = useSearchParams();
   const [jenisKelamin, setJenisKelamin] = useState("");
   const [loading, setLoading] = useState(false);
   const [allJabatan, setAllJabatan] = useState([]);
+  const [tanggalLahir, setTanggalLahir] = useState("");
   const [current, setCurrent] = useState(0);
   const router = useRouter()
 
@@ -79,6 +81,7 @@ const UpdatePegawai = () => {
   const onFinish = async (values) => {
     console.log(values)
     const {nama, nip, telepon, tempat_lahir, jenis_kelamin, jabatanId, pangkat, alamat} = values;
+
     try {
       const response = await fetch(`/api/pegawai/${searchParams.get("id")}`, {
         method: "PATCH",
@@ -86,7 +89,7 @@ const UpdatePegawai = () => {
           "Content-type": "application/json",
         },
         body: JSON.stringify({
-          nama, nip, telepon, tempat_lahir, jenis_kelamin, jabatanId, pangkat, alamat
+          nama, nip, telepon, tanggal_lahir: tanggalLahir, tempat_lahir, jenis_kelamin, jabatanId, pangkat, alamat
         }),
       });
       if (response.ok) {
@@ -101,6 +104,11 @@ const UpdatePegawai = () => {
       console.log(error);
     }
   }
+
+  const onDateChange = (date, dateString) => {
+    console.log(date, dateString);
+    setTanggalLahir(dateString);
+  };
 
   const handleJabatanChange = (value) => {
     console.log(`selected ${value}`);
@@ -138,6 +146,7 @@ const UpdatePegawai = () => {
                 nama: searchParams.get("nama"),
                 nip: searchParams.get("nip"),
                 telepon: searchParams.get("telepon"),
+                tanggal_lahir: dayjs(searchParams.get("tanggal_lahir"), "DD/MM/YYYY"),
                 tempat_lahir: searchParams.get("tempat_lahir"),
                 alamat: searchParams.get("alamat"),
                 jenis_kelamin: searchParams.get("jenis_kelamin"),
@@ -173,19 +182,21 @@ const UpdatePegawai = () => {
                     >
                     <Input style={styles.inputStyle} placeholder='1234567890'/>
                   </Form.Item>
+
                   <Form.Item 
-                    label="No. HP" 
-                    name="telepon" 
+                    label="Tanggal Lahir" 
+                    name="tanggal_lahir" 
                     style={styles.formItemStyle} 
                     rules={[
                       {
                         required: true,
-                        message: "No HP tidak boleh kosong!"
+                        message: "Tanggal Lahir tidak boleh kosong!"
                       }
                     ]}
-                    >
-                    <Input style={styles.inputStyle} placeholder='081234567890'/>
+                  >
+                    <DatePicker onChange={onDateChange} style={styles.inputStyle} format="DD/MM/YYYY"/>
                   </Form.Item>
+
                   <Form.Item 
                     label="Tempat Lahir" 
                     name="tempat_lahir" 
@@ -199,6 +210,7 @@ const UpdatePegawai = () => {
                   >
                     <Input style={styles.inputStyle} placeholder='Palu'/>
                   </Form.Item>
+
                   <Form.Item 
                     label="Jenis Kelamin" 
                     name="jenis_kelamin" 
@@ -217,6 +229,20 @@ const UpdatePegawai = () => {
                   </Form.Item>
                 </div>
                 <div className='flex-1'>
+                  <Form.Item 
+                    label="No. HP" 
+                    name="telepon" 
+                    style={styles.formItemStyle} 
+                    rules={[
+                      {
+                        required: true,
+                        message: "No HP tidak boleh kosong!"
+                      }
+                    ]}
+                    >
+                    <Input style={styles.inputStyle} placeholder='081234567890'/>
+                  </Form.Item>
+                  
                   <Form.Item 
                     label="Jabatan" 
                     name="jabatanId" 

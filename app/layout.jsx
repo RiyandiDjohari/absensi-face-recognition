@@ -24,7 +24,7 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <MainLayout children={children} />
+        <MainLayout children={children}/>
       </body>
     </html>
   );

@@ -2,19 +2,22 @@
 import React, { useState } from 'react'
 import { Select, Input, Table, Button } from "antd"
 import { showEntriesOption } from "../constant/index"
-import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin6Line } from 'react-icons/ri'
 import { PlusOutlined } from '@ant-design/icons'
-import Link from 'next/link';
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/navigation';
 import { format } from 'date-fns';
+import ModalAddUser from './ModalAddUser';
+import EditUser from './EditUser';
 
 const { Search } = Input;
 
 const UserTable = ({users}) => {
   const router = useRouter();
-  const [filteredUser, setFilteredUser] = useState("")
+
+  const [openModalAdd, setOpenModalAdd] = useState(false);
+  const [filteredUser, setFilteredUser] = useState("");
+
   const handleChange = (value) => {
     console.log(`selected ${value}`);
   };
@@ -82,15 +85,7 @@ const UserTable = ({users}) => {
       width: 100,
       render: (_, record) => (
         <div className="flex justify-center items-center gap-2">
-          <Link href={{pathname: `/user/update/${record.id}`, query: {
-            id: record.id,
-            name: record.name,
-            username: record.username,
-            email: record.email,
-            status: record.status,
-          }}}>
-            <FiEdit color="#FFC107" size={25} style={{ cursor: "pointer" }}/>
-          </Link>
+          <EditUser user={record}/>
           <RiDeleteBin6Line color="#DC3545" size={25} style={{ cursor: "pointer" }} onClick={() => handleDeleteUser(record.id)}/>
         </div>
       ),
@@ -136,7 +131,7 @@ const UserTable = ({users}) => {
     <div className="user">
       <div className='flex justify-between items-center flex-wrap gap-4'>
         <h1 className="section-title">Daftar Pengguna</h1>
-        <Link href={"/user/tambah"}><Button icon={<PlusOutlined />} type='primary' size='large'>Tambah Pengguna</Button></Link>
+        <Button icon={<PlusOutlined />} type='primary' size='large' onClick={() => setOpenModalAdd(true)}>Tambah Pengguna</Button>
       </div>
 
       <div className='flex flex-wrap gap-4 justify-between items-center my-10'>
@@ -173,6 +168,8 @@ const UserTable = ({users}) => {
         // scroll={{x: "100vw"}}
         // style={{border: "1px solid red"}}
       />
+
+      <ModalAddUser open={openModalAdd} setOpen={setOpenModalAdd}/>  
     </div>
   )
 }

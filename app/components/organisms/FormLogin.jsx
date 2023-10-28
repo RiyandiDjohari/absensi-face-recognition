@@ -27,6 +27,7 @@ const FormLogin = () => {
   return (
     <Form
       name="normal_login"
+      autoComplete="on"
       className="login-form"
       layout="vertical"
       initialValues={{

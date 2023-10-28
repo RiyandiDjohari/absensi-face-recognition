@@ -17,13 +17,13 @@ export const DELETE = async (req, {params}) => {
 export const PATCH = async (req, {params}) => {
   try {
     const body = await req.json();
-    const { nama, nip, telepon, tempat_lahir, jenis_kelamin, jabatanId, pangkat, alamat } = body
+    const { nama, nip, telepon, tanggal_lahir, tempat_lahir, jenis_kelamin, jabatanId, pangkat, alamat } = body
     const pegawai = await db.pegawai.update({
       where: {
         id: Number(params.id)
       }, 
       data: {
-        nama, nip, telepon, tempat_lahir, jenis_kelamin, jabatanId, pangkat, alamat
+        nama, nip, telepon, tanggal_lahir, tempat_lahir, jenis_kelamin, jabatanId, pangkat, alamat
       }
     })
     return NextResponse.json(pegawai, {status: 200});
