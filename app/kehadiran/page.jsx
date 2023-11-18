@@ -23,12 +23,28 @@ const getKehadiran = async () => {
   return res;
 }
 
+const getPegawai = async () => {
+  const res = await db.pegawai.findMany({
+    select: {
+        id: true, 
+        nama: true,
+        jabatan: {
+          select: {
+            nama_jabatan: true,
+          }
+        }
+      }
+  });
+  return res;
+}
+
 const Kehadiran = async () => {
   const allKehadiran = await getKehadiran();
+  const allPegawai = await getPegawai();
   return (
     <section id='kehadiran'>
       <TitleBar title={"Data Kehadiran"}/>
-      <TabelKehadiran allKehadiran={allKehadiran}/>
+      <TabelKehadiran allKehadiran={allKehadiran} allPegawai={allPegawai}/>
     </section>
   )
 }

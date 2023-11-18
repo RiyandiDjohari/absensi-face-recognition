@@ -21,6 +21,7 @@ const FormLogin = () => {
     } else {
       await Swal.fire("Success", "Login Berhasil!", "success");
       router.push("/dashboard");
+      router.refresh();
     }
   };
 

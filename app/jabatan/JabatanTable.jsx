@@ -7,6 +7,8 @@ import { FiEdit } from 'react-icons/fi'
 import { RiDeleteBin6Line } from 'react-icons/ri'
 import ModalAddJabatan from './ModalAddJabatan'
 import EditJabatan from './EditJabatan'
+import Swal from 'sweetalert2'
+import { useRouter } from 'next/navigation'
 
 const { Search } = Input;
 
@@ -14,6 +16,7 @@ const JabatanTable = ({ allJabatan, lastJabatan }) => {
   const [open, setOpen] = useState(false);
   const [entryData, setEntryData] = useState("10");
   const [filteredUser, setFilteredUser] = useState("");
+  const router = useRouter();
 
   // Generate kode jabatan baru
   const idJabatan = lastJabatan.id + 1 ;
@@ -53,11 +56,33 @@ const JabatanTable = ({ allJabatan, lastJabatan }) => {
       render: (_, record) => (
         <div className="flex justify-center items-center gap-2">
           <EditJabatan jabatan={record}/>
-          <RiDeleteBin6Line color="#DC3545" size={25} style={{ cursor: "pointer" }} onClick={() => handleDeleteJabatan()}/>
+          <RiDeleteBin6Line color="#DC3545" size={25} style={{ cursor: "pointer" }} onClick={() => handleDeleteJabatan(record.id)}/>
         </div>
       ),
     },
   ];
+
+  const handleDeleteJabatan = async (id) => {
+    await Swal.fire({
+      title: 'Apakah anda yakin ingin menghapus data?',
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: 'Hapus',
+      cancelButtonText: "Batal",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await fetch(`/api/jabatan/${id}`, {
+          method: "DELETE",
+          cache: 'no-store',
+          next: {
+            revalidate: 10
+          }
+        })
+        await Swal.fire('Data Jabatan berhasil dihapus!', '', 'success')
+        router.refresh();
+      }
+    })
+  }
 
   const dataSource = allJabatan.map((jabatan, i) => ({
     key: i,

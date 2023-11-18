@@ -22,8 +22,8 @@ const DateTime = () => {
   }, []);
 
   return (
-    <div className='hidden text-sm sm:text-base xs:block'>
-      {currentDateTime}
+    <div className='hidden text-sm font-medium sm:text-base xs:block'>
+      {currentDateTime} WITA
     </div>
   )
 }

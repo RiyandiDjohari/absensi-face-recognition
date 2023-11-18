@@ -1,5 +1,4 @@
-'use client'
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 import SidebarList from '../molecules/SidebarList';
 import { usePathname } from 'next/navigation';
 import { useOutsideClick } from '@/app/hooks/useOutsideClick';
@@ -14,7 +13,6 @@ const Sidebar = ({ sidebarMini, setSidebarMini, isMobile, setIsMobile }) => {
   }
 
   useOutsideClick(boxRef, handleCloseMenu);
-
   return (
     <>
     <aside id='sidebar' className={`bg-[#F9F9F9] fixed min-h-screen hidden shadow-md shadow-gray-400 transition-all duration-500 ${sidebarMini ? "md:w-20 lg:w-20 xl:w-20 p-2 md:block" : "w-0 lg:w-64 xl:w-72 lg:p-4 md:hidden min-[1100px]:block xl:block"}`}>

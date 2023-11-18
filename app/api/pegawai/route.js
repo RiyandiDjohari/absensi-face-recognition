@@ -30,21 +30,46 @@ export async function POST(request) {
 
 // GET ALL PEGAWAI
 export async function GET(request) {
-  try {
-    const allPegawai = await db.pegawai.findMany({
-      select: {
-          id: true, 
-          nama: true,
-          jabatan: {
-            select: {
-              nama_jabatan: true,
+  const query = request.query;
+  const {name} = query;
+
+  if (name) {
+    try {
+      const pegawaiId = await db.pegawai.findUnique({
+        where: {
+          nama: {
+            contains: name,
+            mode: "insensitive", // case-insensitive search
+          },
+        },
+        select: {
+          id: true,
+        },
+      });
+      return NextResponse.json(pegawaiId, {status: 200});
+    } catch (error) {
+      console.log(error)
+      return NextResponse.json({message: "Something Went Wrong"}, {status: 500});
+    }
+  } else {
+    try {
+      const allPegawai = await db.pegawai.findMany({
+        select: {
+            id: true, 
+            nama: true,
+            jabatan: {
+              select: {
+                nama_jabatan: true,
+              }
             }
           }
-        }
-    });
-    return NextResponse.json(allPegawai, {status: 200})
-  } catch (error) {
-    console.log(error)
-    return NextResponse.json({ message: "Something Went Wrong" }, { status: 500 });
+      });
+      return NextResponse.json(allPegawai, {status: 200})
+    } catch (error) {
+      console.log(error)
+      return NextResponse.json({ message: "Something Went Wrong" }, { status: 500 });
+    }
   }
+ 
 }
+

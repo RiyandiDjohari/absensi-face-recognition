@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react'
+import React, { Suspense, useState } from 'react'
 import { Select, Input, Table, Button } from "antd"
 import { showEntriesOption } from "../constant/index"
 import { RiDeleteBin6Line } from 'react-icons/ri'
@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import { format } from 'date-fns';
 import ModalAddUser from './ModalAddUser';
 import EditUser from './EditUser';
+import Loading from './loading';
 
 const { Search } = Input;
 
@@ -148,7 +149,7 @@ const UserTable = ({users}) => {
           Entries  
         </div>
         <Search
-          placeholder="Cari Pegawai"
+          placeholder="Cari Pengguna"
           allowClear
           enterButton
           size="large"
@@ -156,18 +157,20 @@ const UserTable = ({users}) => {
           style={{width: "280px"}}
         />
       </div>
-
-      <Table
-        columns={columnsUsers}
-        dataSource={filteredUser ? filteredUser : dataSource}
-        bordered 
-        // pagination={{
-        //   pageSize: 10,
-        // }}
-        // tableLayout='auto'
-        // scroll={{x: "100vw"}}
-        // style={{border: "1px solid red"}}
-      />
+      
+      {/* <Suspense fallback={<Loading />}> */}
+        <Table
+          columns={columnsUsers}
+          dataSource={filteredUser ? filteredUser : dataSource}
+          bordered 
+          // pagination={{
+          //   pageSize: 10,
+          // }}
+          // tableLayout='auto'
+          // scroll={{x: "100vw"}}
+          // style={{border: "1px solid red"}}
+        />
+      {/* </Suspense> */}
 
       <ModalAddUser open={openModalAdd} setOpen={setOpenModalAdd}/>  
     </div>

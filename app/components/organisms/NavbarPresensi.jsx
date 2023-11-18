@@ -3,9 +3,16 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { BiMenu } from 'react-icons/bi'
+import { useRouter } from 'next/navigation';
 
 const NavbarPresensi = () => {
   const [toggleMenu, setToggleMenu] = useState(true);
+  const router = useRouter();
+
+  const handleRoutingLogin = () => {
+    router.push('/login');
+  }
+
   return (
     <nav className="bg-primary w-full flex flex-wrap items-center justify-between px-4 py-4 text-white text-sm sm:px-8 sm:text-base lg:px-36">
       <div className='flex items-center gap-2'>
@@ -14,9 +21,9 @@ const NavbarPresensi = () => {
       </div>
 
       <BiMenu size={24} color='#F9F9F9' onClick={ () => setToggleMenu(prev => !prev)} className='cursor-pointer md:hidden block'/>
-      <div class={`${toggleMenu ? "hidden" : "block"} w-full md:flex md:items-center md:w-auto`} id="menu">
+      <div className={`${toggleMenu ? "hidden" : "block"} w-full md:flex md:items-center md:w-auto`} id="menu">
         <ul
-          class="
+          className="
             pt-4
             text-white
             md:flex
@@ -24,8 +31,8 @@ const NavbarPresensi = () => {
             md:items-center
             md:pt-0"
         >
-          <li>
-            <Link class="md:p-4 py-2 block hover:text-black" href="/login">Login Administrator</Link>
+          <li onClick={handleRoutingLogin}>
+            <p className="md:p-4 py-2 block font-medium text-black bg-slate-100 rounded-lg cursor-pointer">Login Administrator</p>
           </li>
         </ul>
       </div>

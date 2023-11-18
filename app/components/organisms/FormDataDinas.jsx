@@ -75,7 +75,7 @@ const FormDataDinas = ({profile}) => {
   }
 
   return (
-    <Suspense fallback={<Loading />}>
+    <>
     <Form
       labelCol={{span: 5}}
       labelAlign='left'
@@ -193,7 +193,7 @@ const FormDataDinas = ({profile}) => {
         </Button>
       </div>
     }
-    </Suspense>
+  </>
   )
 }
 

@@ -1,9 +1,13 @@
 import "./globals.css";
-import MainLayout from "./components/templates/MainLayout";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { ConfigProvider } from "antd";
+import AdminLayout from "./components/templates/AdminLayout";
+import StyledComponentsRegistry from "./lib/AntdRegistry";
+import { Suspense } from "react";
+import Loading from "./loading";
 
 export const metadata = {
   title: "Absensi Face Recognition",
@@ -15,7 +19,7 @@ export default async function RootLayout({ children }) {
   const headersList = headers();
   const activePath = headersList.get("x-invoke-path");
 
-  if(!session && activePath != "/login") {
+  if(!session && activePath != "/login" && activePath != "/presensi") {
     redirect("/login");
   } else if (session && activePath == "/login") {
     redirect("/dashboard");
@@ -24,7 +28,25 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <MainLayout children={children}/>
+        <StyledComponentsRegistry>
+          <ConfigProvider
+            theme={{
+              token: {
+                colorPrimary: "#14a7a0",
+              },
+            }}
+          >
+            {activePath == "/login" || activePath == "/" || activePath == "/presensi" ? (
+              <>
+                {children}
+              </>
+            ) : (
+              <Suspense fallback={<Loading />}>
+                <AdminLayout children={children}/>
+              </Suspense>
+            )}
+          </ConfigProvider>
+        </StyledComponentsRegistry>
       </body>
     </html>
   );

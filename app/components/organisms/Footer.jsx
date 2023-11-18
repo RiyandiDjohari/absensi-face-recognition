@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <footer className='bg-[#F9F9F9] h-fit flex justify-start items-center gap-3 p-4 shadow-md shadow-gray-400'>
       <BiCopyright size="20px"/>
-      <p className='text-[14px] md:text-[16px]'>2023 Dinas Kebudayaan Dan Pariwisata Kota Palu | All rights Reserved.</p>
+      <p className='text-[14px] md:text-[16px]'>2023 Dinas Pariwisata Kota Palu | All rights Reserved.</p>
     </footer>
   )
 }

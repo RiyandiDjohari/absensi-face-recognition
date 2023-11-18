@@ -1,11 +1,9 @@
 'use client';
 import React, { useEffect, useState } from "react";
-import { Footer, Header } from "..";
-import { SessionProvider } from "next-auth/react";
-import dynamic from "next/dynamic";
 import Sidebar from "../organisms/Sidebar";
-
-// const Sidebar = dynamic(() =>  import("../organisms/Sidebar"), {ssr: true});
+import Header from "../organisms/Header";
+import Footer from "../organisms/Footer";
+import { SessionProvider } from "next-auth/react";
 
 const AdminLayout = ({children}) => {
   const [isMobile, setIsMobile] = useState(false)
@@ -23,6 +21,7 @@ const AdminLayout = ({children}) => {
   useEffect(() => {
     window.addEventListener("resize", handleResize)
   })
+
   return (
     <SessionProvider>
       <div className="flex flex-col min-h-screen">
@@ -30,12 +29,12 @@ const AdminLayout = ({children}) => {
           <Sidebar sidebarMini={sidebarMini} setSidebarMini={setSidebarMini} isMobile={isMobile} setIsMobile={setIsMobile}/>
           <div className={`flex flex-col flex-1 ${sidebarMini ? "ml-20" : "min-[1100px]:ml-64 xl:ml-72"} ${isMobile && "ml-0"}`}>
             <Header setSidebarMini={setSidebarMini}/>
-            <main className="p-6 flex-1">{children}</main>
+              <main className="p-6 flex-1">{children}</main>
             <Footer />
           </div>
         </div>
       </div>
-    </SessionProvider>
+   </SessionProvider>
   );
 };
 

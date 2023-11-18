@@ -18,7 +18,7 @@ const PegawaiModal = ({open, setOpen, pegawai}) => {
       
     },
   }
-
+  
   return (
     <Modal
       title="Detail Pegawai"
@@ -39,7 +39,7 @@ const PegawaiModal = ({open, setOpen, pegawai}) => {
           tempat_lahir: pegawai.tempat_lahir,
           tanggal_lahir:pegawai.tanggal_lahir, 
           pangkat: pegawai.pangkat,
-          jabatan: pegawai?.jabatan?.nama_jabatan,
+          jabatan: pegawai.jabatan,
           jenis_kelamin: pegawai.jenis_kelamin == "L" ? "Laki-laki" : "Perempuan",
           alamat: pegawai.alamat,
         }}

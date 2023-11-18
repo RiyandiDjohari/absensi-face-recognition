@@ -20,7 +20,7 @@ export const PATCH = async (req, {params}) => {
     const { pegawaiId, tanggal, jam_masuk, jam_keluar, status, kehadiran, keterangan } = body
     const presensi = await db.presensi.update({
       where: {
-        id: Number(params.id)
+        id: Number(params.id),
       }, 
       data: {
         pegawaiId, tanggal, jam_masuk, jam_keluar, status, kehadiran, keterangan

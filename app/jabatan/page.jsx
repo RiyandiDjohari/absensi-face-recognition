@@ -5,7 +5,7 @@ import { db } from '../lib/db'
 
 const getJabatan = async () => {
   const res = await db.jabatan.findMany()
- return res;
+  return res;
 }
 
 const getLastJabatan = async () => {

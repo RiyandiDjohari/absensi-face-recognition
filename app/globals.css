@@ -29,6 +29,11 @@ body {
   background-color: #ebf2fd;
 }
 
+canvas {
+  position: absolute;
+  top: 0;
+}
+
 /* .table {
   @apply w-full
 } */
@@ -112,7 +117,7 @@ thead > tr > .ant-table-cell{
 
 /* START: REKAP ABSENSI */
 .laporan {
-  @apply px-10 py-8 my-6 bg-white rounded-lg shadow-md shadow-gray-300 inline-block w-full md:w-[750px]
+  @apply px-10 py-8 my-6 bg-white rounded-lg shadow-md shadow-gray-300 inline-block w-full
 }
 /* END: REKAP ABSENSI */
 
