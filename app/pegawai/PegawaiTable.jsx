@@ -155,12 +155,6 @@ const PegawaiTable = ({ allPegawai, allJabatan }) => {
         pagination={{
           pageSize: entryData
         }}
-        // scroll={{
-        //   x: 900,
-        // }}
-        // tableLayout='auto'
-        // scroll={{x: "100vw"}}
-        // style={{width: "100%  "}}
       />
       
       <ModalAddPegawai open={openModalAdd} setOpen={setOpenModalAdd}/>

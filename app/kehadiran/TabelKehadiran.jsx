@@ -1,6 +1,5 @@
 'use client';
 import React, { useState } from 'react'
-import Link from 'next/link'
 import { Badge, Button, Input, Select, Table } from 'antd'
 import { DownloadOutlined, PlusOutlined } from '@ant-design/icons'
 import { showEntriesOption } from "../constant/index"
@@ -63,7 +62,6 @@ const TabelKehadiran = ({allKehadiran, allPegawai}) => {
     {
       title: "Nama",
       dataIndex: "pegawai",
-      // width: 200,
       fixed: "left",
       key: "pegawai",
     },
@@ -198,12 +196,6 @@ const TabelKehadiran = ({allKehadiran, allPegawai}) => {
           pageSize: entryData
         }}
         footer={() => <Button icon={<DownloadOutlined />} type='primary' size='large' onClick={() => handleOnExport()}>Ekspor xls</Button>}
-        // scroll={{
-        //   x: 900,
-        // }}
-        // tableLayout='auto'
-        // scroll={{x: "100vw"}}
-        // style={{width: "100%  "}}
       />
 
       <ModalAddKehadiran open={open} setOpen={setOpen} allPegawai={allPegawai}/>

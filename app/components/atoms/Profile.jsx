@@ -1,5 +1,5 @@
 'use client';
-import { DownOutlined, LogoutOutlined, UserOutlined } from "@ant-design/icons";
+import { DownOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar, Dropdown, Space } from "antd";
 import { signOut, useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";

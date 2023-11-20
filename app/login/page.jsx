@@ -12,7 +12,7 @@ const Login = async () => {
     <div id="login" className="login">
       <div className="login-container">
         <div className="login-header">
-          <h1 className="login-header_title">DINAS KEBUDAYAAN DAN PARIWISATA KOTA PALU</h1>
+          <h1 className="login-header_title">DINAS PARIWISATA KOTA PALU</h1>
           <img src="/logo.png" alt="logo" className="login-header_img" />
         </div>
         <FormLogin />

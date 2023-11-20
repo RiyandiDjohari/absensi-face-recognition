@@ -115,12 +115,6 @@ const TabelLaporan = ({allKehadiran, pegawai, startDate, endDate}) => {
         dataSource={dataSource}
         bordered
         footer={() => <Button icon={<DownloadOutlined />} type='primary' size='large' onClick={() => handleOnExport()}>Ekspor xls</Button>}
-        // scroll={{
-          //   x: 900,
-          // }}
-        // tableLayout='auto'
-        // scroll={{x: "100vw"}}
-        // style={{width: "100%  "}}
       />
     </>
   )

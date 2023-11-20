@@ -8,8 +8,6 @@ import { PiToolboxFill } from "react-icons/pi";
 
 const getJabatan = async () => {
   const res = await db.jabatan.findMany()
-
-  // await new Promise((resolve) => setTimeout(resolve, 3000));
   return res;
 
 }

@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import { Button, Input, Select, Table } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { showEntriesOption } from "../constant/index"
-import { FiEdit } from 'react-icons/fi'
 import { RiDeleteBin6Line } from 'react-icons/ri'
 import ModalAddJabatan from './ModalAddJabatan'
 import EditJabatan from './EditJabatan'
@@ -145,12 +144,6 @@ const JabatanTable = ({ allJabatan, lastJabatan }) => {
         pagination={{
           pageSize: entryData,
         }}
-        // scroll={{
-        //   x: 900,
-        // }}
-        // tableLayout='auto'
-        // scroll={{x: "100vw"}}
-        // style={{width: "100%  "}}
       />
 
       <ModalAddJabatan open={open} setOpen={setOpen} kodeJabatan={idJabatan} />

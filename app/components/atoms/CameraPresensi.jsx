@@ -5,7 +5,6 @@ import Webcam from 'react-webcam';
 import * as faceapi from 'face-api.js';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
-import Swal from 'sweetalert2';
 
 const CameraPresensi = ({allPegawai, allKehadiran}) => {
   let continueDetecting = true;
@@ -16,8 +15,6 @@ const CameraPresensi = ({allPegawai, allKehadiran}) => {
   const [webcamEnabled, setWebcamEnabled] = useState(false)
   const [absenMasuk, setAbsenMasuk] = useState(false);
   const [absenPulang, setAbsenPulang] = useState(false);
-  // const [isRecognitionComplete, setIsRecognitionComplete] = useState(false);
-  // const [recognizedPerson, setRecognizedPerson] = useState("");
   const router = useRouter();
   
   useEffect(() => {
@@ -67,104 +64,101 @@ const CameraPresensi = ({allPegawai, allKehadiran}) => {
           label: bestMatch.label,
         });
         drawBox.draw(canvasRef.current ? canvasRef.current : {width: 1, height: 1});
-        // if(bestMatch.label != 'unknown') {
-        //   setRecognizedPerson(bestMatch.label);
+
+        // const filteredPegawai = allPegawai.filter((pegawai) => pegawai.nama.toLowerCase() == bestMatch.label.toLowerCase() )
+        // const filteredKehadiran = allKehadiran.filter((kehadiran) => kehadiran.tanggal == today && filteredPegawai[0].id == kehadiran.pegawaiId)
+        
+        // console.log("filteredPegawai", filteredPegawai);
+        // console.log("filteredKehadiran", filteredKehadiran);
+        
+        // if(filteredPegawai.length != 0) {
+        //   continueDetecting = false
         // }
 
-        const filteredPegawai = allPegawai.filter((pegawai) => pegawai.nama.toLowerCase() == bestMatch.label.toLowerCase() )
-        const filteredKehadiran = allKehadiran.filter((kehadiran) => kehadiran.tanggal == today && filteredPegawai[0].id == kehadiran.pegawaiId)
-        
-        console.log("filteredPegawai", filteredPegawai);
-        console.log("filteredKehadiran", filteredKehadiran);
-        
-        if(filteredPegawai.length != 0) {
-          continueDetecting = false
-        }
-
-        // Jika Pegawai Dikenali dan Belum Absen Pada Hari Ini
-        if(filteredPegawai.length != 0 && filteredKehadiran.length == 0) {
-          setTimeout(() => {
-            Swal.fire({
-              title: "Wajah Berhasil Dikenali",
-              text: `Rekam Absen Masuk Untuk ${filteredPegawai[0]?.nama} ?`,
-              icon: "success",
-              showCancelButton: true,
-              confirmButtonColor: "#3085d6",
-              cancelButtonColor: "#d33",
-              confirmButtonText: "Ya"
-            }).then( async (result) => {
-              if (result.isConfirmed) {
-                try {
-                  const response = await fetch(`/api/presensi`, {
-                    method: 'POST', 
-                    headers : {
-                      'Content-Type': 'application/json'
-                    }, 
-                    body: JSON.stringify({
-                      pegawaiId: filteredPegawai[0].id, 
-                      jam_masuk: dayjs().format('HH:mm:ss'), 
-                      tanggal: dayjs().format('DD/MM/YYYY'), 
-                      kehadiran: 'Hadir', 
-                      status: 'Masuk', 
-                      keterangan: dayjs().format('HH:mm:ss') < '08:15:00' ? 'Hadir' : 'Terlambat'
-                    })
-                  })
-                  if (response.ok) {
-                    successAbsenMasuk()
-                    router.refresh();
-                    setWebcamEnabled(false)
-                  } else {
-                    error();
-                  }
-                } catch (error) {
-                  console.log('Something Went Wrong')
-                }
-              }
-            })
-          }, 3000)
-        } else if (filteredPegawai.length != 0 && filteredKehadiran.length != 0) {
-          // Jika Pegawai Dikenali, Dan Sudah melakukan Absensi Pada Hari Ini
-          if(filteredKehadiran[0]?.jam_keluar == null){
-            setTimeout(() => {
-              Swal.fire({
-                title: "Wajah Berhasil Dikenali",
-                text: `Rekam Absen Pulang Untuk ${filteredPegawai[0]?.nama} ?`,
-                icon: "success",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Ya"
-              }).then( async (result) => {
-                if (result.isConfirmed) {
-                  try {
-                    const response = await fetch(`/api/presensi/${filteredKehadiran[0]?.id}`, {
-                      method: 'PATCH', 
-                      headers : {
-                        'Content-Type': 'application/json'
-                      }, 
-                      body: JSON.stringify({
-                        jam_keluar: dayjs().format('HH:mm:ss'), 
-                        status: 'Pulang', 
-                      })
-                    })
-                    if (response.ok) {
-                      successAbsenPulang()
-                      router.refresh();
-                      setWebcamEnabled(false)
-                    } else {
-                      error()
-                    }
-                  } catch (error) {
-                    console.log(error);
-                  }
-                }
-              })
-            }, 3000)
-          } else {
-            // Jika Pegawai Dikenali dan sudah Absen Pulang
-            errorSudahAbsen();
-          }
-        }
+        // // Jika Pegawai Dikenali dan Belum Absen Pada Hari Ini
+        // if(filteredPegawai.length != 0 && filteredKehadiran.length == 0) {
+        //   setTimeout(() => {
+        //     Swal.fire({
+        //       title: "Wajah Berhasil Dikenali",
+        //       text: `Rekam Absen Masuk Untuk ${filteredPegawai[0]?.nama} ?`,
+        //       icon: "success",
+        //       showCancelButton: true,
+        //       confirmButtonColor: "#3085d6",
+        //       cancelButtonColor: "#d33",
+        //       confirmButtonText: "Ya"
+        //     }).then( async (result) => {
+        //       if (result.isConfirmed) {
+        //         try {
+        //           const response = await fetch(`/api/presensi`, {
+        //             method: 'POST', 
+        //             headers : {
+        //               'Content-Type': 'application/json'
+        //             }, 
+        //             body: JSON.stringify({
+        //               pegawaiId: filteredPegawai[0].id, 
+        //               jam_masuk: dayjs().format('HH:mm:ss'), 
+        //               tanggal: dayjs().format('DD/MM/YYYY'), 
+        //               kehadiran: 'Hadir', 
+        //               status: 'Masuk', 
+        //               keterangan: dayjs().format('HH:mm:ss') < '08:15:00' ? 'Hadir' : 'Terlambat'
+        //             })
+        //           })
+        //           if (response.ok) {
+        //             successAbsenMasuk()
+        //             setWebcamEnabled(false)
+        //             router.refresh();
+        //           } else {
+        //             error();
+        //           }
+        //         } catch (error) {
+        //           console.log('Something Went Wrong')
+        //         }
+        //       }
+        //     })
+        //   }, 3000)
+        // } else if (filteredPegawai.length != 0 && filteredKehadiran.length != 0) {
+        //   // Jika Pegawai Dikenali, Dan Sudah melakukan Absensi Pada Hari Ini
+        //   if(filteredKehadiran[0]?.jam_keluar == null){
+        //     setTimeout(() => {
+        //       Swal.fire({
+        //         title: "Wajah Berhasil Dikenali",
+        //         text: `Rekam Absen Pulang Untuk ${filteredPegawai[0]?.nama} ?`,
+        //         icon: "success",
+        //         showCancelButton: true,
+        //         confirmButtonColor: "#3085d6",
+        //         cancelButtonColor: "#d33",
+        //         confirmButtonText: "Ya"
+        //       }).then( async (result) => {
+        //         if (result.isConfirmed) {
+        //           try {
+        //             const response = await fetch(`/api/presensi/${filteredKehadiran[0]?.id}`, {
+        //               method: 'PATCH', 
+        //               headers : {
+        //                 'Content-Type': 'application/json'
+        //               }, 
+        //               body: JSON.stringify({
+        //                 jam_keluar: dayjs().format('HH:mm:ss'), 
+        //                 status: 'Pulang', 
+        //               })
+        //             })
+        //             if (response.ok) {
+        //               successAbsenPulang()
+        //               setWebcamEnabled(false)
+        //               router.refresh();
+        //             } else {
+        //               error()
+        //             }
+        //           } catch (error) {
+        //             console.log(error);
+        //           }
+        //         }
+        //       })
+        //     }, 3000)
+        //   } else {
+        //     // Jika Pegawai Dikenali dan sudah Absen Pulang
+        //     errorSudahAbsen();
+        //   }
+        // }
 
         // faceapi.draw.drawDetections(canvasRef.current, resized);
       } else {
@@ -176,7 +170,7 @@ const CameraPresensi = ({allPegawai, allKehadiran}) => {
   };
 
   const loadLabeledImages = async () => {
-    const labels = ['Ferri', 'Maya', 'Riyandi Djohari'] ;
+    const labels = ['Ferri', 'Maya', 'Raynaldi', 'Riyandi Djohari'] ;
     return Promise.all(
       labels.map(async (label) => {
         const descriptions = [];

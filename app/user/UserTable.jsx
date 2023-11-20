@@ -9,7 +9,6 @@ import { useRouter } from 'next/navigation';
 import { format } from 'date-fns';
 import ModalAddUser from './ModalAddUser';
 import EditUser from './EditUser';
-import Loading from './loading';
 
 const { Search } = Input;
 
@@ -41,7 +40,6 @@ const UserTable = ({users}) => {
       dataIndex: "no",
       key: "no",
       align: "center",
-      // width: 100,
       responsive: ["md"],
     },
     {
@@ -158,19 +156,11 @@ const UserTable = ({users}) => {
         />
       </div>
       
-      {/* <Suspense fallback={<Loading />}> */}
-        <Table
-          columns={columnsUsers}
-          dataSource={filteredUser ? filteredUser : dataSource}
-          bordered 
-          // pagination={{
-          //   pageSize: 10,
-          // }}
-          // tableLayout='auto'
-          // scroll={{x: "100vw"}}
-          // style={{border: "1px solid red"}}
-        />
-      {/* </Suspense> */}
+      <Table
+        columns={columnsUsers}
+        dataSource={filteredUser ? filteredUser : dataSource}
+        bordered 
+      />
 
       <ModalAddUser open={openModalAdd} setOpen={setOpenModalAdd}/>  
     </div>

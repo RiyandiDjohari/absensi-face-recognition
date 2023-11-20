@@ -23,7 +23,7 @@ const DateTime = () => {
 
   return (
     <div className='hidden text-sm font-medium sm:text-base xs:block'>
-      {currentDateTime} WITA
+      {currentDateTime} {currentDateTime ? 'WITA' : ''} 
     </div>
   )
 }

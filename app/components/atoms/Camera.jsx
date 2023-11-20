@@ -29,8 +29,6 @@ const Camera = ({nama}) => {
     setImgSrc(imageSrc);
   }, [webcamRef]);
   
-  // console.log(namaPegawai.toLowerCase().replace(/\s/g, ''))
-
   const retake = () => {
     setImgSrc(null);
   };
@@ -48,12 +46,7 @@ const Camera = ({nama}) => {
 
   const uploadPhoto = async () => {
     if (imgSrc) {
-      // Convert base64 image data to a blob
-      // const blob = await fetch(imgSrc).then((res) => res.blob());
-
-      // console.log(blob);
-
-      // Create a FormData object and append the blob
+      // Create a FormData object and append the data
       const formData = new FormData();
       formData.append('photo', imgSrc);
       formData.append('name', namaPegawai)
@@ -105,8 +98,7 @@ const Camera = ({nama}) => {
           ) : (
           <Button type='default' className='flex-1 text-white' style={{backgroundColor: "#7076FE", color: "#fff"}} onClick={() => setWebcamEnabled((prev) => !prev)}>Aktifkan Camera</Button>
         )
-      }
-      
+      } 
     </div>
     </>
   )

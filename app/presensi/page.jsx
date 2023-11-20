@@ -2,8 +2,8 @@ import React from 'react'
 import NavbarPresensi from '../components/organisms/NavbarPresensi'
 import CameraPresensi from '../components/atoms/CameraPresensi'
 import { db } from '../lib/db'
-import TabelKehadiran from '../kehadiran/TabelKehadiran'
 import TabelKehadiranPegawai from './TabelKehadiranPegawai'
+import Footer from '../components/organisms/Footer'
 
 const getPegawai = async () => {
   const res = await db.pegawai.findMany({
@@ -50,8 +50,9 @@ const Absensi = async () => {
         <div className='max-w-[500px] m-auto p-8'>
           <CameraPresensi allPegawai={pegawai} allKehadiran={kehadiran}/>
         </div>
-        <TabelKehadiranPegawai allPegawai={pegawai} allKehadiran={kehadiran}/>
+        <TabelKehadiranPegawai allKehadiran={kehadiran}/>
       </div>
+      <Footer />
     </section>
   )
 }
